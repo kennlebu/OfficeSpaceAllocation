@@ -1,6 +1,10 @@
+import random
+
 from models.room import Room
 from models.office import Office
 from models.living_space import LivingSpace
+from .staff import Staff
+from .fellow import Fellow
 
 class Dojo():
     """ Dojo is a facility that accommodates Andelans in Kenya.
@@ -22,7 +26,46 @@ class Dojo():
         only added to a living space if they opt in by passing 'Y' as an
         argument on <wants_accommodation>
         """
-        pass
+
+        if person_type.upper() == 'STAFF':
+            # Create a new staff and add them to the Dojo
+            self.people.append(Staff(person_name))
+            # Add an occupant to a random Office
+            self.add_occupant_to_office()
+
+
+        elif person_type.upper() == 'FELLOW':
+            # Create a new fellow and add them to the Dojo
+            self.people.append(Fellow(person_name))
+        else:
+            print("A person can only be staff or a fellow")
+
+
+    def add_occupant_to_office(self):
+        # Get offices available in the Dojo
+        offices = []
+        for room in self.rooms:
+            if room.room_type == 'office':
+                offices.append(room)
+
+        if len(offices) < 1:    # No office in the Dojo
+            print("There are no offices in the Dojo yet. Create one using",
+                    "create_room office <room_name>")
+        else:
+            # Get offices with spaces left in them
+            unfilled_offices = []
+            for office in offices:
+                if office.occupants < office.max_occupants:
+                    unfilled_offices.append(office)
+            
+            if len(unfilled_offices) < 1:   # All offices are full
+                print("All offices are full. Create a new one using",
+                        "create_room office <room_name>")
+            else:
+                # Pick an office at random
+                selected_office = random.choice(unfilled_offices)
+                # Add an occupant to the office
+                selected_office.occupants += 1
 
 
     def list_rooms(self):
