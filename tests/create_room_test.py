@@ -24,4 +24,7 @@ class TestCreateRoom(unittest.TestCase):
         self.assertTrue(warriors)
         self.assertTrue(isinstance(warriors, Room, msg='Living space should be an instance of Room'))
 
+if __name__ == '__main__':
+    unittest.main()
+
     
