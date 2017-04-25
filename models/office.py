@@ -1,4 +1,4 @@
-from room import Room
+from models.room import Room
 
 class Office(Room):
     """ An office can be allocated to either staff or

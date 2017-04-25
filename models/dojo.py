@@ -1,6 +1,6 @@
-from room import Rooms
-from office import Office
-from living_space import LivingSpace
+from models.room import Room
+from models.office import Office
+from models.living_space import LivingSpace
 
 class Dojo():
     """ Dojo is a facility that accommodates Andelans in Kenya.
@@ -35,7 +35,12 @@ class Dojo():
         If more than one name is passed, it creates as many rooms 
         with the different names of type <room_type>.
         """
-        pass
+
+        if len(room_name) >= 1:
+            for name in room_name:
+                new_room = Office(name) if room_type.upper() == 'OFFICE' else LivingSpace(name)
+                self.rooms.append(new_room)
+
 
 
     def print_room(self, room_name):
