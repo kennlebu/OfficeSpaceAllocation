@@ -64,6 +64,41 @@ class Dojo():
             print("A person can only be staff or a fellow")
 
 
+
+    def allocate_livingspace(self, person):
+        """ Allocates a new fellow living space at random """
+        # Get living spaces available in the Dojo
+        living_spaces = []
+        for room in self.rooms:
+            if room.room_type == 'livingspace':
+                living_spaces.append(room)
+
+        if len(living_spaces) < 1:
+        # There is no living space in the Dojo
+            print("There are no living spaces in the Dojo yet.",
+                  "Create one using: create_room livingspace <room_name>")
+            return 'NO LIVING SPACES'
+
+        # Get rooms with space left in them
+        unfilled_spaces = []
+        for living_space in living_spaces:
+            if len(living_space.occupants) < living_space.max_occupants:
+                unfilled_spaces.append(living_space)
+
+        if len(unfilled_spaces) < 1:
+        # There are no living spaces with space in them
+            print("All living spaces are full.",
+                  "Create a new one using: create_room livingspace <room_name>")
+            return 'NO SPACE'
+
+        # Select a living space at random and add the fellow to it
+        selected_space = random.choice(unfilled_spaces)
+        selected_space.occupants.append(person)
+        person.allocated_livingspace = selected_space.room_name
+        print("{0} has been allocated the living space {1}"
+              .format(person.person_name.split()[0], selected_space.room_name))
+
+
     def allocate_office(self, person):
         """ Allocates a person office space at random """
 
