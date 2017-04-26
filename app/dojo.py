@@ -62,6 +62,9 @@ class Dojo():
                 new_room = Office(name) if room_type.upper() == 'OFFICE' else LivingSpace(name)
                 self.rooms.append(new_room)
 
+        else:
+            print("Specify at least one room name")
+
 
 
     def print_room(self, room_name):
