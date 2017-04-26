@@ -26,6 +26,7 @@ class TestCreateRoom(unittest.TestCase):
         self.assertTrue(white_livingspace)
         self.assertTrue(isinstance(white_livingspace, LivingSpace), 
                         msg='Living Space should be an instance of LivingSpace')
+        self.assertTrue(white_livingspace in dojo1.rooms, msg='Room should be in rooms')
 
     def test_create_office(self):
         dojo2 = Dojo()
@@ -33,6 +34,7 @@ class TestCreateRoom(unittest.TestCase):
         self.assertTrue(warriors)
         self.assertTrue(isinstance(warriors, Office), 
                         msg='Office should be an instance of Office')
+        self.assertTrue(warriors in dojo2.rooms, msg='Room should be in rooms')
 
 
 
