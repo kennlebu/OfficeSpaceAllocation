@@ -36,6 +36,12 @@ class TestCreateRoom(unittest.TestCase):
                         msg='Office should be an instance of Office')
         self.assertTrue(warriors in dojo2.rooms, msg='Room should be in rooms')
 
+    def test_print_room(self):
+        dojo3 = Dojo()
+        warriors = dojo3.create_room("office", "Warriors")
+        green_livingspace = dojo3.create_room('livingspace', 'Green')
+        self.assertEqual([], dojo3.print_room('warriors'))
+
 
 
 class PersonTest(unittest.TestCase):
