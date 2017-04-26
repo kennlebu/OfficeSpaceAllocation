@@ -30,8 +30,9 @@ class Dojo():
         if person_type.upper() == 'STAFF':
             # Create a new staff and add them to the Dojo
             self.people.append(Staff(person_name))
+            print("Staff {} has been successfully added.".format(person_name))
             # Add an occupant to a random Office
-            self.add_occupant('office')
+            self.add_occupant('office', person_name)
 
 
         elif person_type.upper() == 'FELLOW':
@@ -41,19 +42,19 @@ class Dojo():
                 # and allocate them a living space
                 self.people.append(Fellow(person_name, 'Y'))
                 # Add an occupant to a living space
-                self.add_occupant('livingspace')
+                self.add_occupant('livingspace', person_name)
 
             else:
                 # Create a new fellow and add them to the Dojo
                 self.people.append(Fellow(person_name))
                 # Add an occupant to a random living space
-                self.add_occupant('office')
+                self.add_occupant('office', person_name)
 
         else:
             print("A person can only be staff or a fellow")
 
 
-    def add_occupant(self, room_type):
+    def add_occupant(self, room_type, person_name):
         """ Adds an occupant to a random room of type <room_type> """
 
         # Get spaces available in the Dojo
@@ -80,6 +81,8 @@ class Dojo():
                 selected_space = random.choice(unfilled_spaces)
                 # Add an occupant to the space
                 selected_space.occupants += 1
+
+            print("{} has been allocated the office Blue".format(person_name.split()[0]))
 
 
 
@@ -133,4 +136,3 @@ class Dojo():
         """ Adds people to rooms from the specified txt file. """
 
         pass
-        
