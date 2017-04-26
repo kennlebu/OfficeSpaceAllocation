@@ -107,7 +107,24 @@ class Dojo():
         """ Prints a list of unallocated people. If filename is specified,
         the list is outputted to the specified txt file.
         """
-        pass
+        unallocated_people = []
+        output = ''
+        for person in self.people:
+            if (person.allocated_office is None or
+                    (person.allocated_livingspace is None and person.wants_accommodation=='Y')):
+                unallocated_people.append(person.person_name)
+
+            output += '\n'.join(unallocated_people)
+
+        if filename is None:
+            print(output)
+        else:
+            try:
+                output_file = open('../' + filename, 'w+')
+                output_file.write(output)
+                output_file.close()
+            except IOError:
+                print('Failed to write to file')
 
 
     def reallocate_person(self, person_identifier, new_room_name):
