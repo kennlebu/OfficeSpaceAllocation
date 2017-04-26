@@ -178,11 +178,15 @@ class Dojo():
 
 
 
-        
-
-
-
     def load_people(self, filename):
         """ Adds people to rooms from the specified txt file. """
 
-        pass
+        new_people = []
+        try:
+            input_file = open(filename)
+            new_people = input_file.readlines()
+        except IOError:
+            print('Failed to read that file')
+
+        
+        
