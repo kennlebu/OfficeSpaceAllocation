@@ -10,8 +10,10 @@ import unittest
 import nose
 
 class TestCreateRoom(unittest.TestCase):
-    
+    """ Tests whether Offices and Living Spaces are created correctly """
+
     def test_create_room_successfully(self):
+        """ Tests whether a room has been created and added to the Dojo """
         dojo = Dojo()
         initial_room_count = len(dojo.rooms)
         blue_office = dojo.create_room("office", "Blue")
@@ -22,6 +24,7 @@ class TestCreateRoom(unittest.TestCase):
         self.assertEqual(new_room_count - initial_room_count, 2)
 
     def test_create_livingspace(self):
+        """ Tests whether LivingSpace is created and added to the Dojo """
         dojo1 = Dojo()
         white_livingspace = dojo1.create_room("livingspace", "White")
         self.assertTrue(white_livingspace)
@@ -30,6 +33,7 @@ class TestCreateRoom(unittest.TestCase):
         self.assertTrue(white_livingspace in dojo1.rooms, msg='Room should be in rooms')
 
     def test_create_office(self):
+        """ Tests whether an office is created and added to the Dojo """
         dojo2 = Dojo()
         warriors = dojo2.create_room("office", "Warriors")
         self.assertTrue(warriors)
@@ -38,6 +42,7 @@ class TestCreateRoom(unittest.TestCase):
         self.assertTrue(warriors in dojo2.rooms, msg='Room should be in rooms')
 
     def test_print_room(self):
+        """ Tests whether the members in a room are printed """
         dojo3 = Dojo()
         warriors = dojo3.create_room("office", "Warriors")
         green_livingspace = dojo3.create_room('livingspace', 'Green')
