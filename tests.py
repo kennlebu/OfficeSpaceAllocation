@@ -25,7 +25,7 @@ class TestCreateRoom(unittest.TestCase):
         dojo1 = Dojo()
         white_livingspace = dojo1.create_room("livingspace", "White")
         self.assertTrue(white_livingspace)
-        self.assertTrue(isinstance(white_livingspace, LivingSpace), 
+        self.assertTrue(isinstance(white_livingspace, LivingSpace),
                         msg='Living Space should be an instance of LivingSpace')
         self.assertTrue(white_livingspace in dojo1.rooms, msg='Room should be in rooms')
 
@@ -33,7 +33,7 @@ class TestCreateRoom(unittest.TestCase):
         dojo2 = Dojo()
         warriors = dojo2.create_room("office", "Warriors")
         self.assertTrue(warriors)
-        self.assertTrue(isinstance(warriors, Office), 
+        self.assertTrue(isinstance(warriors, Office),
                         msg='Office should be an instance of Office')
         self.assertTrue(warriors in dojo2.rooms, msg='Room should be in rooms')
 
@@ -42,7 +42,6 @@ class TestCreateRoom(unittest.TestCase):
         warriors = dojo3.create_room("office", "Warriors")
         green_livingspace = dojo3.create_room('livingspace', 'Green')
         self.assertEqual([], dojo3.print_room('warriors'))
-
 
 
 class PersonTest(unittest.TestCase):
