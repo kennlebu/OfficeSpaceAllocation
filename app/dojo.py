@@ -37,6 +37,9 @@ class Dojo():
             self.people.append(new_staff)
 
             # Allocate the staff an office
+            self.allocate_office(new_staff)
+
+            return new_staff
 
 
         elif person_type.upper() == 'FELLOW':
@@ -57,8 +60,10 @@ class Dojo():
 
         if len(office_spaces) < 1:
         # There is no office in the Dojo
+            print("There are no offices in the Dojo yet.",
+                  "Create one using: create_room office <room_name>")
             return 'NO OFFICES'
-        
+
         # Get offices with space left in them
         unfilled_spaces = []
         for office in office_spaces:
@@ -67,11 +72,15 @@ class Dojo():
 
         if len(unfilled_spaces) < 1:
         # There are no offices with space in them
+            print("All offices are full. Create a new one using: create_room office <room_name>")
             return 'NO SPACE'
 
         # Select an office at random and add the person in it
         selected_office = random.choice(unfilled_spaces)
         selected_office.occupants.append(person)
+        person.allocated_office = selected_office.room_name
+        print("{0} has been allocated the office {1}".format(person.person_name.split()[0],
+                                                             selected_office.room_name))
 
 
 
