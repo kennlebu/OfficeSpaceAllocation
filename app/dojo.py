@@ -28,11 +28,11 @@ class Dojo():
 
         if person_type.upper() == 'STAFF':
             # Add an occupant to a random Office
-            pass
+            print('Adding {}, type {}'.format(person_name, person_type))
 
 
         elif person_type.upper() == 'FELLOW':
-            pass
+            print('Adding {}, type {}, accommodation {}'.format(person_name,person_type,wants_accommodation))
 
         else:
             print("A person can only be staff or a fellow")
@@ -191,5 +191,12 @@ class Dojo():
         if len(new_people) < 1:
             print('The file has no readable data')
         else:
-            pass
-        
+            for person in new_people:
+                person_args = person.split()
+                person_name = ' '.join([person_args[0], person_args[1]])
+                person_type = person_args[2]
+                if len(person_args) > 3:
+                    self.add_person(person_name, person_type, person_args[3])
+                else:
+                    self.add_person(person_name, person_type)
+
