@@ -131,7 +131,16 @@ class Dojo():
         """ Reallocates the person identified by <person_identifier>
         to a new room specified by <room_name>
         """
-        pass
+        # Check if the new room exixts
+        room_names = []
+        for room in self.rooms:
+            room_names.append(room.room.room_name)
+        if new_room_name.upper() not in room_names:
+            print("There is no room with that name")
+            return
+
+        
+
 
 
     def load_people(self, filename):
