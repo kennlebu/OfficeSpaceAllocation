@@ -152,19 +152,29 @@ class Dojo():
         # Remove occupant from former room.
         # First, get their former room.
         former_room = None
+        the_person = None
         for person in self.people:
             if person.person_name == person_identifier.upper():
+                the_person = person
                 if new_room.room_type == 'office':
                     former_room = person.allocated_office
                     person.allocated_office = None
                 elif new_room.room_type == 'livingspace':
                     former_room = person.allocated_livingspace
                     person.allocated_livingspace = None
-        
+
         # Reduce occupants in that room
         for room in self.rooms:
             if room.room_name == former_room:
                 room.occupants =- 1 
+
+        # Add person to the new room
+        new_room.occupants += 1
+        if new_room.room_type == 'office':
+            the_person.allocated_office = new_room.room_name
+        else:
+            the_person.allocated_livingspace = new_room.room_name
+
 
 
 
