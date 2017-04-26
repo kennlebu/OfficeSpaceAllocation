@@ -5,8 +5,8 @@ class Staff(Person):
     A staff is allocated office space but cannot be
     allocated living space
     """
-    def __init__(self, name, allocated='N'):
-        super().__init__(name, allocated)
+    def __init__(self, name, allocated_office=None):
+        super().__init__(name, allocated_office)
         self.person_type = "staff"
-        self.allocated = allocated
+        self.allocated_office = allocated_office
         

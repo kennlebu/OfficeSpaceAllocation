@@ -9,3 +9,4 @@ class LivingSpace(Room):
         super().__init__(room_name)
         self.max_occupants = '4'
         self.room_type = 'livingspace'
+        self.occupants = [] # People in the room currently

@@ -10,3 +10,4 @@ class Office(Room):
         super().__init__(room_name)
         self.max_occupants = '6'
         self.room_type = 'office'
+        self.occupants = [] # People in the room currently

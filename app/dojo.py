@@ -28,7 +28,15 @@ class Dojo():
 
         if person_type.upper() == 'STAFF':
             # Add an occupant to a random Office
-            print('Adding {}, type {}'.format(person_name, person_type))
+            #print('Adding {}, type {}'.format(person_name, person_type))
+
+            # Create Staff object
+            new_staff = Staff(person_name)
+
+            # Add the staff to the Dojo
+            self.people.append(new_staff)
+
+            # Allocate the staff an office
 
 
         elif person_type.upper() == 'FELLOW':
@@ -38,15 +46,44 @@ class Dojo():
             print("A person can only be staff or a fellow")
 
 
+    def allocate_office(self, person):
+        """ Allocates a person office space at random """
+
+        # Get office spaces available in the Dojo
+        office_spaces = []
+        for room in self.rooms:
+            if room.room_type == 'office':
+                office_spaces.append(room)
+
+        if len(office_spaces) < 1:
+        # There is no office in the Dojo
+            return 'NO OFFICES'
+        
+        # Get offices with space left in them
+        unfilled_spaces = []
+        for office in office_spaces:
+            if len(office.occupants) < office.max_occupants:
+                unfilled_spaces.append(office)
+
+        if len(unfilled_spaces) < 1:
+        # There are no offices with space in them
+            return 'NO SPACE'
+
+        # Select an office at random and add the person in it
+        selected_office = random.choice(unfilled_spaces)
+        selected_office.occupants.append(person)
+
+
+
 
     def list_rooms(self):
         """ Lists the rooms that are existing in the Dojo and the number
         of occupants they have
         """
-        print('ROOM\t\t\t\t|\tOCCUPANTS')
+        print('ROOM\t\t|\tOCCUPANTS')
         print('-----------------------------------------')
         for room in self.rooms:
-            print(room.room_name + '\t\t :\t' + len(room.occupants))
+            print(room.room_name + '\t\t :\t' + str(len(room.occupants)))
 
 
 
@@ -71,6 +108,8 @@ class Dojo():
     def print_room(self, room_name):
         """ Prints the names of all the people in the room """
 
+        room_name = room_name.upper()
+        output = []
         target_room = None
         for room in self.rooms:
             if room.room_name == room_name:
@@ -83,6 +122,9 @@ class Dojo():
                 if (person.allocated_office == room_name or
                         person.allocated_livingspace == room_name):
                     print(person.person_name)
+                    output.append(person.person_name)
+
+        return output
 
 
     def print_allocations(self, filename=None):

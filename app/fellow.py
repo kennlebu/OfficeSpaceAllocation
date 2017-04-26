@@ -7,8 +7,9 @@ class Fellow(Person):
     for living space too.
     """
 
-    def __init__(self, person_name, allocated='N', accommodated='N'):
-        super().__init__(person_name, allocated)
+    def __init__(self, person_name, wants_accommodation='N', allocated_office=None, allocated_livingspace=None):
+        super().__init__(person_name, allocated_office)
         self.person_type = "fellow"
-        self.allocated = allocated
-        self.accommodated = accommodated
+        self.allocated_office = allocated_office
+        self.allocated_livingspace = allocated_livingspace
+        self.wants_accommodation = wants_accommodation
