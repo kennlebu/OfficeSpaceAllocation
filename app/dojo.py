@@ -43,7 +43,22 @@ class Dojo():
 
 
         elif person_type.upper() == 'FELLOW':
-            print('Adding {}, type {}, accommodation {}'.format(person_name,person_type,wants_accommodation))
+            #print('Adding {}, type {}, accommodation {}'.format(person_name,person_type,wants_accommodation))
+
+            # Create a Fellow object
+            new_fellow = Fellow(person_name, wants_accommodation)
+
+            # Add the fellow to the Dojo
+            self.people.append(new_fellow)
+
+            # Allocate the fellow an Office
+            self.allocate_office(new_fellow)
+
+            if wants_accommodation.upper() == 'Y':
+            # Allocate the fellow living space
+                self.allocate_livingspace(new_fellow)
+
+            return new_fellow
 
         else:
             print("A person can only be staff or a fellow")
