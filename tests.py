@@ -1,5 +1,7 @@
 from app.room import Room
 from app.dojo import Dojo
+from app.living_space import LivingSpace
+from app.office import Office
 from app.person import Person
 from app.dojo import Dojo
 from app.fellow import Fellow
@@ -19,18 +21,18 @@ class TestCreateRoom(unittest.TestCase):
         self.assertEqual(new_room_count - initial_room_count, 2)
 
     def test_create_livingspace(self):
-        dojo = Dojo()
-        white_office = dojo.create_room("office", "White")
-        self.assertTrue(white_office)
-        self.assertTrue(isinstance(white_office, Room, 
-                msg='Office should be an instance of Room'))
+        dojo1 = Dojo()
+        white_livingspace = dojo1.create_room("livingspace", "White")
+        self.assertTrue(white_livingspace)
+        self.assertTrue(isinstance(white_livingspace, LivingSpace), 
+                        msg='Living Space should be an instance of LivingSpace')
 
     def test_create_office(self):
-        dojo = Dojo()
-        warriors = dojo.create_room("livingspace", "Warriors")
+        dojo2 = Dojo()
+        warriors = dojo2.create_room("office", "Warriors")
         self.assertTrue(warriors)
-        self.assertTrue(isinstance(warriors, Room, 
-                msg='Living space should be an instance of Room'))
+        self.assertTrue(isinstance(warriors, Office), 
+                        msg='Office should be an instance of Office')
 
 
 
