@@ -48,9 +48,10 @@ class PersonTest(unittest.TestCase):
 
     def test_create_person(self):
         """ Tests whether the object created is of type Person """
-        dojo = Dojo()
-        person = dojo.add_person("Kenneth Lebu", "fellow", "Y")
+        dojo4 = Dojo()
+        person = dojo4.add_person("Kenneth Lebu", "staff")
         self.assertTrue(person)
+        self.assertTrue(isinstance(person, Person))
 
     def test_add_person(self):
         """ Tests whether a person is added to the Dojo """
