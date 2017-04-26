@@ -50,6 +50,7 @@ class TestCreateRoom(unittest.TestCase):
 
 
 class PersonTest(unittest.TestCase):
+    """ Tests whether a person is created and added to the Dojo """
 
     def test_create_person(self):
         """ Tests whether the object created is of type Person """
@@ -64,9 +65,10 @@ class PersonTest(unittest.TestCase):
         initial_person_count = len(dojo.people)
         dojo.add_person("Bangi Lebu", "fellow")
         dojo.add_person("Magdalene Acio", "fellow", "Y")
+        dojo.add_person("Jackie Chan", 'staff')
         new_person_count = len(dojo.people)
-        self.assertEqual(2, initial_person_count - new_person_count,
-                         msg="2 new people should be added")
+        self.assertEqual(3, new_person_count - initial_person_count,
+                         msg="3 new people should be added")
 
     def test_add_fellow(self):
         """ Tests whether the object created is of type Fellow """
@@ -85,7 +87,6 @@ class PersonTest(unittest.TestCase):
 
 #unittest.main()
 if __name__ == '__main__':
-    import nose
-    nose.run(defaultTest = __name__)
+    nose.run(defaultTest=__name__)
 
-    
+
