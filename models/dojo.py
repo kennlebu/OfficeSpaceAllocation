@@ -9,8 +9,8 @@ from .fellow import Fellow
 class Dojo():
     """ Dojo is a facility that accommodates Andelans in Kenya.
 
-    A Dojo has many rooms and new fellows and staff are assigned 
-    rooms at random. A new fellow is assigned an office and can 
+    A Dojo has many rooms and new fellows and staff are assigned
+    rooms at random. A new fellow is assigned an office and can
     opt for living space too.
     New staff can only be allocated office space.
     """
@@ -22,7 +22,7 @@ class Dojo():
     def add_person(self, person_name, person_type, wants_accommodation='N'):
         """ Randomly adds a person to a room.
         Staff can only be added to offices. Fellows can be added to offices
-        and living spaces. Living spaces however, are optional. A fellow is 
+        and living spaces. Living spaces however, are optional. A fellow is
         only added to a living space if they opt in by passing 'Y' as an
         argument on <wants_accommodation>
         """
@@ -31,41 +31,57 @@ class Dojo():
             # Create a new staff and add them to the Dojo
             self.people.append(Staff(person_name))
             # Add an occupant to a random Office
-            self.add_occupant_to_office()
+            self.add_occupant('office')
 
 
         elif person_type.upper() == 'FELLOW':
-            # Create a new fellow and add them to the Dojo
-            self.people.append(Fellow(person_name))
+
+            if wants_accommodation.upper() == 'Y':
+                # Create a new fellow and add them to the Dojo
+                # and allocate them a living space
+                self.people.append(Fellow(person_name, 'Y'))
+                # Add an occupant to a living space
+                self.add_occupant('livingspace')
+
+            else:
+                # Create a new fellow and add them to the Dojo
+                self.people.append(Fellow(person_name))
+                # Add an occupant to a random living space
+                self.add_occupant('office')
+
         else:
             print("A person can only be staff or a fellow")
 
 
-    def add_occupant_to_office(self):
-        # Get offices available in the Dojo
-        offices = []
-        for room in self.rooms:
-            if room.room_type == 'office':
-                offices.append(room)
+    def add_occupant(self, room_type):
+        """ Adds an occupant to a random room of type <room_type> """
 
-        if len(offices) < 1:    # No office in the Dojo
-            print("There are no offices in the Dojo yet. Create one using",
-                    "create_room office <room_name>")
+        # Get spaces available in the Dojo
+        spaces = []
+        for room in self.rooms:
+            if room.room_type == room_type:
+                spaces.append(room)
+
+        if len(spaces) < 1:    # No space in the Dojo
+            print("There are no {} in the Dojo yet. Create one using".format(room_type + 's'),
+                  "create_room {} <room_name>".format(room_type))
         else:
-            # Get offices with spaces left in them
-            unfilled_offices = []
-            for office in offices:
-                if office.occupants < office.max_occupants:
-                    unfilled_offices.append(office)
-            
-            if len(unfilled_offices) < 1:   # All offices are full
-                print("All offices are full. Create a new one using",
-                        "create_room office <room_name>")
+            # Get rooms with space left in them
+            unfilled_spaces = []
+            for space in spaces:
+                if space.occupants < space.max_occupants:
+                    unfilled_spaces.append(space)
+
+            if len(unfilled_spaces) < 1:   # All spaces are full
+                print("All {} are full. Create a new one using".format(room_type + 's'),
+                      "create_room {} <room_name>".format(room_type))
             else:
-                # Pick an office at random
-                selected_office = random.choice(unfilled_offices)
-                # Add an occupant to the office
-                selected_office.occupants += 1
+                # Pick a space at random
+                selected_space = random.choice(unfilled_spaces)
+                # Add an occupant to the space
+                selected_space.occupants += 1
+
+
 
 
     def list_rooms(self):
@@ -75,7 +91,7 @@ class Dojo():
 
     def create_room(self, room_type, *room_name):
         """ Creates a room of type <room_type> called <room_name>.
-        If more than one name is passed, it creates as many rooms 
+        If more than one name is passed, it creates as many rooms
         with the different names of type <room_type>.
         """
 
@@ -117,3 +133,4 @@ class Dojo():
         """ Adds people to rooms from the specified txt file. """
 
         pass
+        
