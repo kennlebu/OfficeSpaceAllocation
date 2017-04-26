@@ -188,5 +188,8 @@ class Dojo():
         except IOError:
             print('Failed to read that file')
 
-        
+        if len(new_people) < 1:
+            print('The file has no readable data')
+        else:
+            pass
         
