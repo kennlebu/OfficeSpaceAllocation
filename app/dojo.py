@@ -78,7 +78,29 @@ class Dojo():
         """ Prints a list of room allocations. If filename is specified,
         the list of allocations are outputted to the specified txt file.
         """
-        pass
+        output = ''
+        for room in self.rooms:
+            members = [] # List of members in the room
+            output += room.room_name.upper() + '\n'
+            output += '-------------------------------------\n'
+            # Get the people in the room
+            for person in self.people:
+                if (person.allocated_office == room.room_name or
+                        person.allocated_livingspace == room.room_name):
+                    members.append(person.person_name.upper())
+
+            output += ', '.join(members) + '\n'
+
+        if filename is None:
+            print(output)
+        else:
+            try:
+                output_file = open('../' + filename, 'w+')
+                output_file.write(output)
+                output_file.close()
+            except IOError:
+                print('Failed to write to file')
+
 
 
     def print_unallocated(self, filename=None):
