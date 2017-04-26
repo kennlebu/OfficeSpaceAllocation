@@ -7,6 +7,7 @@ from app.dojo import Dojo
 from app.fellow import Fellow
 from app.staff import Staff
 import unittest
+import nose
 
 class TestCreateRoom(unittest.TestCase):
     
@@ -77,6 +78,9 @@ class PersonTest(unittest.TestCase):
         self.assertTrue(isinstance(new_staff, Staff))
 
 
-unittest.main()
+#unittest.main()
+if __name__ == '__main__':
+    import nose
+    nose.run(defaultTest = __name__)
 
     
