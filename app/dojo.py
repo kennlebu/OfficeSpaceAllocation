@@ -139,6 +139,15 @@ class Dojo():
             print("There is no room with that name")
             return
 
+        # Check if the new room has space
+        target_room = None
+        for room in self.rooms:
+            if new_room_name.upper() == room.room_name:
+                target_room = room
+
+        if target_room.len(target_room.occupants) >= target_room.max_occupants:
+            print("{} is already full.".format(target_room.room_name))
+
         
 
 
