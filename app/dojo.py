@@ -28,71 +28,14 @@ class Dojo():
 
         if person_type.upper() == 'STAFF':
             # Add an occupant to a random Office
-            self.add_occupant('office', person_name)
+            pass
 
 
         elif person_type.upper() == 'FELLOW':
-
-            if wants_accommodation.upper() == 'Y':
-                # Create a new fellow and add them to the Dojo
-                # and allocate them a living space
-                self.people.append(Fellow(person_name, 'Y'))
-                # Add an occupant to a living space
-                self.add_occupant('livingspace', person_name)
-
-            else:
-                # Create a new fellow and add them to the Dojo
-                self.people.append(Fellow(person_name))
-                # Add an occupant to a random living space
-                self.add_occupant('office', person_name)
+            pass
 
         else:
             print("A person can only be staff or a fellow")
-
-
-    def add_occupant(self, room_type, person_name):
-        """ Adds an occupant to a random room of type <room_type> """
-
-        # Get spaces available in the Dojo
-        spaces = []
-        for room in self.rooms:
-            if room.room_type == room_type:
-                spaces.append(room)
-
-        if len(spaces) < 1:    # No space in the Dojo
-            # Create a new staff and add them to the Dojo
-            # but don't allocate them any space
-            self.people.append(Staff(person_name))
-            print("Staff {} has been successfully added.".format(person_name))
-            print("There are no {} in the Dojo yet. Create one using".format(room_type + 's'),
-                  "create_room {} <room_name>".format(room_type))
-        else:
-            # Get rooms with space left in them
-            unfilled_spaces = []
-            for space in spaces:
-                if space.occupants < space.max_occupants:
-                    unfilled_spaces.append(space)
-
-            if len(unfilled_spaces) < 1:   # All spaces are full
-                # Create a new staff and add them to the Dojo
-                # but don't allocate them any space
-                self.people.append(Staff(person_name))
-                print("Staff {} has been successfully added.".format(person_name))
-                print("All {} are full. Create a new one using".format(room_type + 's'),
-                      "create_room {} <room_name>".format(room_type))
-            else:
-                # Create a new staff and add them to the Dojo
-                # and allocate them space
-                self.people.append(Staff(person_name, 'Y'))
-                print("Staff {} has been successfully added.".format(person_name))
-                # Pick a space at random
-                selected_space = random.choice(unfilled_spaces)
-                # Add an occupant to the space
-                selected_space.occupants += 1
-
-                print("{0} has been allocated the office {1}".format(person_name.split()[0],
-                                                                     selected_space.room_name))
-
 
 
 
@@ -117,7 +60,18 @@ class Dojo():
     def print_room(self, room_name):
         """ Prints the names of all the people in the room """
 
-        pass
+        target_room = None
+        for room in self.rooms:
+            if room.room_name == room_name:
+                target_room == room
+
+        if target_room is None:
+            print("There is no room called {}".format(room_name))
+        else:
+            for person in self.people:
+                if (person.allocated_office == room_name or
+                        person.allocated_livingspace == room_name):
+                    print(person.person_name)
 
 
     def print_allocations(self, filename=None):
