@@ -111,7 +111,7 @@ class Dojo():
         output = ''
         for person in self.people:
             if (person.allocated_office is None or
-                    (person.allocated_livingspace is None and person.wants_accommodation=='Y')):
+                    (person.allocated_livingspace is None and person.wants_accommodation == 'Y')):
                 unallocated_people.append(person.person_name)
 
             output += '\n'.join(unallocated_people)
@@ -133,6 +133,7 @@ class Dojo():
         """
         # Check if the new room exixts
         room_names = []
+        new_room = None
         for room in self.rooms:
             room_names.append(room.room.room_name)
         if new_room_name.upper() not in room_names:
@@ -140,13 +141,32 @@ class Dojo():
             return
 
         # Check if the new room has space
-        target_room = None
         for room in self.rooms:
             if new_room_name.upper() == room.room_name:
-                target_room = room
+                new_room = room
 
-        if target_room.len(target_room.occupants) >= target_room.max_occupants:
-            print("{} is already full.".format(target_room.room_name))
+        if new_room.len(new_room.occupants) >= new_room.max_occupants:
+            print("{} is already full.".format(new_room.room_name))
+            return
+
+        # Remove occupant from former room.
+        # First, get their former room.
+        former_room = None
+        for person in self.people:
+            if person.person_name == person_identifier.upper():
+                if new_room.room_type == 'office':
+                    former_room = person.allocated_office
+                    person.allocated_office = None
+                elif new_room.room_type == 'livingspace':
+                    former_room = person.allocated_livingspace
+                    person.allocated_livingspace = None
+        
+        # Reduce occupants in that room
+        for room in self.rooms:
+            if room.room_name == former_room:
+                room.occupants =- 1 
+
+
 
         
 
