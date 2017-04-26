@@ -40,8 +40,15 @@ class Dojo():
 
 
     def list_rooms(self):
-        """ Lists the rooms that are existing in the Dojo """
-        pass
+        """ Lists the rooms that are existing in the Dojo and the number
+        of occupants they have
+        """
+        print('ROOM\t\t\t\t|\tOCCUPANTS')
+        print('-----------------------------------------')
+        for room in self.rooms:
+            print(room.room_name + '\t\t :\t' + len(room.occupants))
+
+
 
 
     def create_room(self, room_type, *room_name):
