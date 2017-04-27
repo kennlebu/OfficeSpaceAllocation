@@ -87,7 +87,9 @@ class InteractiveShell(cmd.Cmd):
             person_type = 'fellow'
         elif args['staff']:
             person_type = 'staff'
-        wants_accommodation = 'Y' if args.get('<wants_accommodation>').upper() == 'Y' else 'N'
+        wants_accommodation = args['<wants_accommodation>']
+        if wants_accommodation is None:
+            wants_accommodation = 'N'
 
         dojo.add_person(person_name, person_type, wants_accommodation)
 
@@ -96,7 +98,6 @@ class InteractiveShell(cmd.Cmd):
         """ Usage: print_room <room_name> """
         room_name = args['<room_name>']
         dojo.print_room(room_name)
-        #print(args)
 
     @docopt_cmd
     def do_print_allocation(self, args):
