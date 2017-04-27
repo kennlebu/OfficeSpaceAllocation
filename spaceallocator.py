@@ -12,6 +12,7 @@ Usage:
     spaceallocator load_state <sqlite_database>
     spaceallocator list_rooms
     spaceallocator quit
+    spaceallocator run_tests
     spaceallocator (-h | --help)
     spaceallocator (-i | --interactive)
     spaceallocator --version
@@ -20,7 +21,6 @@ Options:
     -h --help    Type help for a list of commands.
     -v --version    Show version.
     -i --interactive    Interactive Mode
-    -o FILE   Specify file to use
 """
 
 import cmd
@@ -29,6 +29,7 @@ from docopt import docopt, DocoptExit
 from termcolor import colored, cprint
 from pyfiglet import figlet_format
 from app.dojo import Dojo
+import tests_main
 
 dojo = Dojo()
 
@@ -72,7 +73,7 @@ class InteractiveShell(cmd.Cmd):
                   attrs=['bold']))
     intro = 'Welcome to Office Space Allocator \nType help to get a list of commands to use'
 
-    prompt = '(Space Allocator) '
+    prompt = colored('(Space Allocator) ', 'cyan')
 
     @docopt_cmd
     def do_create_room(self, args):
@@ -145,8 +146,13 @@ class InteractiveShell(cmd.Cmd):
     @docopt_cmd
     def do_quit(self, args):
         """ Usage: quit """
-        print("Bye!")
+        print(colored("Bye!\n", 'green'))
         exit()
+
+    @docopt_cmd
+    def do_run_test(self, args):
+        """ Usage: run_tests """
+        tests_main.main()
 
 
 opt = docopt(__doc__, sys.argv[1:])
