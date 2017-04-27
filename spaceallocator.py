@@ -31,6 +31,10 @@ def docopt_cmd(func):
     """
     This decorator is used to simplify the try/except block and pass the result
     of the docopt parsing to the called action.
+
+    This decorator was got from the docopt repository on GitHub. Link to the file is:
+    https://github.com/docopt/docopt/blob/master/examples/interactive_example.py
+    Contributors: JonLundy, TheWaWaR
     """
     def fn(self, arg):
         try:
