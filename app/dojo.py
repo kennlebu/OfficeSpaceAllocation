@@ -227,8 +227,9 @@ class Dojo():
         for person in self.people:
             if person.allocated_office is None:
                 unallocated_offices.append(person.person_name)
-            if person.allocated_livingspace is None and person.wants_accommodation == 'Y':
-                unallocated_living.append(person.person_name)
+            if person.person_type == 'fellow':
+                if person.allocated_livingspace is None and person.wants_accommodation == 'Y':
+                    unallocated_living.append(person.person_name)
 
         output += 'NOT ALLOCATED OFFICES\n'
         output += '----------------------------------\n'
