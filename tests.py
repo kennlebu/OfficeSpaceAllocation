@@ -118,6 +118,30 @@ class PersonTest(unittest.TestCase):
         new_staff = dojo.add_person("Moses Ayiga", "staff")
         self.assertTrue(isinstance(new_staff, Staff))
 
+    def test_print_unallocated(self):
+        """ Tests whether unalloacted people are printed properly """
+        dojo5 = Dojo()
+        # Add a room to the Dojo
+        dojo5.create_room('office', 'corner office')
+        dojo5.create_room('livingspace', 'home')
+        # Create staff
+        dojo5.add_person('Ken Lebu', 'staff')
+        dojo5.add_person('John Doe', 'staff')
+        dojo5.add_person('Sarah Doe', 'staff')
+        # Create fellows
+        dojo5.add_person('Big Show', 'fellow', 'Y')
+        dojo5.add_person('Steven Segal', 'fellow')
+        dojo5.add_person('Jackie Chan', 'fellow', 'Y')
+        dojo5.add_person('Johnny Bravo', 'fellow', 'Y')
+        dojo5.add_person('Samurai Jack', 'fellow', 'Y')
+        dojo5.add_person('Will Smith', 'fellow', 'Y')
+        # Check for unallocated
+        # 3 will miss offices, 1 will miss living space
+        self.assertEqual(4, dojo5.print_unallocated(), msg='4 should be unallocated')
+        self.assertEqual(1, dojo5.print_unallocated[0], msg='1 should miss living space')
+        self.assertEqual(3, dojo5.print_unallocated[1], msg='3 should miss offices')
+
+
 
 #unittest.main()
 if __name__ == '__main__':
