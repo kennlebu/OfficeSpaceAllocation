@@ -29,9 +29,11 @@ from docopt import docopt, DocoptExit
 from termcolor import colored, cprint
 from pyfiglet import figlet_format
 from app.dojo import Dojo
+from app.database import Database
 import tests_main
 
 dojo = Dojo()
+db = Database(dojo)
 
 def docopt_cmd(func):
     """
@@ -69,7 +71,7 @@ def docopt_cmd(func):
 
 
 class InteractiveShell(cmd.Cmd):
-    print(colored(figlet_format('Office Space Allocator', font='nancyj'), 'cyan',
+    print(colored(figlet_format('Office Space Allocator', font='3-d'), 'cyan',
                   attrs=['bold']))
     intro = 'Welcome to Office Space Allocator \nType help to get a list of commands to use'
 
@@ -131,7 +133,10 @@ class InteractiveShell(cmd.Cmd):
     @docopt_cmd
     def do_save_state(self, args):
         """ Usage: save_state [--db=sqlite_database] """
-        print(args)
+        if args['--db'] is None:
+            db.save_state()
+        else:
+            db.save_state(args['--db'])
 
     @docopt_cmd
     def do_load_state(self, args):
@@ -150,7 +155,7 @@ class InteractiveShell(cmd.Cmd):
         exit()
 
     @docopt_cmd
-    def do_run_test(self, args):
+    def do_run_tests(self, args):
         """ Usage: run_tests """
         tests_main.main()
 
