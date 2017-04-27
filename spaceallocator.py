@@ -6,7 +6,7 @@ Usage:
     spaceallocator print_room <room_name>
     spaceallocator print_allocations [--o=filename.txt]
     spaceallocator print_unallocated [--o=filename.txt]
-    spaceallocator reallocate_person <person_identifier> <new_room_name>
+    spaceallocator reallocate_person <first_name> <last_name> <new_room_name>
     spaceallocator load_people <filename>
     spaceallocator save_state [--db=sqlite_database]
     spaceallocator load_state <sqlite_database>
@@ -117,9 +117,10 @@ class InteractiveShell(cmd.Cmd):
             dojo.print_unallocated()
 
     @docopt_cmd
-    def do_reallocate_persom(self, args):
-        """ Usage: reallocate_person <person_identifier> <new_room_name> """
-        print(args)
+    def do_reallocate_person(self, args):
+        """ Usage: reallocate_person <first_name> <last_name> <new_room_name> """
+        dojo.reallocate_person(args['<first_name>'] + ' ' + args['<last_name>'],
+                               args['<new_room_name>'])
 
     @docopt_cmd
     def do_load_people(self, args):
