@@ -63,7 +63,7 @@ class Database():
                 cursor.execute('DELETE FROM allocation')
 
             # Insert data
-            saved_rooms = []
+            saved_people = []
             for room in self.dojo.rooms:
                 # Insert rooms
                 cursor.execute("""INSERT INTO room (room_name, room_type) VALUES
@@ -71,6 +71,8 @@ class Database():
                 inserted_room = cursor.lastrowid
 
                 for person in room.occupants:
+                    if person.person_name in saved_people:
+                        break
                     # Insert people
                     person_name = person.person_name
                     person_type = person.person_type
@@ -84,11 +86,11 @@ class Database():
                                            allocated_living, wants_accommodation))
 
                     inserted_person = cursor.lastrowid
+                    saved_people.append(person.person_name)
 
                     cursor.execute("""INSERT INTO allocation (person_id, room_id) VALUES
                                 ('{0}', '{1}')""".format(inserted_person, inserted_room))
 
-                    saved_rooms.append(room)
             print(colored('State has been saved successfully', 'green'))
 
 
@@ -97,7 +99,7 @@ class Database():
         if database is None or database.strip() == '':
             print(colored('Specify a database to load state from.', 'red'))
             return 'NO DATABASE'
-        
+
         try:
             conn = sqlite3.connect(database)
             with conn:
@@ -124,7 +126,7 @@ class Database():
 
                     if person_type == 'staff':
                         self.dojo.people.append(Staff(person_name, allocated_office))
-                    else:
+                    elif person_type == 'fellow':
                         self.dojo.people.append(Fellow(person_name, wants_accommodation,
                                                        allocated_office, allocated_livingspace))
 
@@ -138,6 +140,8 @@ class Database():
                             if person.person_type == 'fellow':
                                 if person.allocated_livingspace == room.room_name:
                                     room.occupants.append(person)
+
+            print(colored('State has been restored successfully', 'green'))
 
         except sqlite3.Error as e:
             print(colored('Error {}'.format(e.args[0]), 'red'))
