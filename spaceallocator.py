@@ -71,9 +71,10 @@ def docopt_cmd(func):
 
 
 class InteractiveShell(cmd.Cmd):
-    print(colored(figlet_format('Office Space Allocator', font='3-d'), 'cyan',
-                  attrs=['bold']))
-    intro = 'Welcome to Office Space Allocator \nType help to get a list of commands to use'
+    print(colored(figlet_format('Office Space Allocator', font='gothic'), 'cyan',
+                  attrs=['bold']).center(70))
+    intro = '''Welcome to Office Space Allocator
+            \nType help to get a list of commands to use\n'''
 
     prompt = colored('(Space Allocator) ', 'cyan')
 
