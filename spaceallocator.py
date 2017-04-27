@@ -101,7 +101,7 @@ class InteractiveShell(cmd.Cmd):
         dojo.print_room(room_name)
 
     @docopt_cmd
-    def do_print_allocation(self, args):
+    def do_print_allocations(self, args):
         """ Usage: print_allocations [--o=<filename.txt>] """
         if args['--o'] is not None:
             dojo.print_allocations(args['--o'])
@@ -110,8 +110,11 @@ class InteractiveShell(cmd.Cmd):
 
     @docopt_cmd
     def do_print_unallocated(self, args):
-        """ Usage: spaceallocator print_unallocated [--o=filename.txt] """
-        print(args['-o'])
+        """ Usage: print_unallocated [--o=filename.txt] """
+        if args['--o'] is not None:
+            dojo.print_unallocated(args['--o'])
+        else:
+            dojo.print_unallocated()
 
     @docopt_cmd
     def do_reallocate_persom(self, args):
