@@ -4,6 +4,7 @@ from .office import Office
 from .living_space import LivingSpace
 from .staff import Staff
 from .fellow import Fellow
+from termcolor import colored
 
 class Dojo():
     """ Dojo is a facility that accommodates Andelans in Kenya.
@@ -296,7 +297,7 @@ class Dojo():
         former_room_name = None
         the_person = None
         for person in self.people:
-            if person.person_name == person_identifier.upper():
+            if person.person_name == person_identifier.title():
                 the_person = person
                 if new_room.room_type == 'office':
                     former_room_name = person.allocated_office
@@ -320,6 +321,9 @@ class Dojo():
             the_person.allocated_office = new_room.room_name
         else:
             the_person.allocated_livingspace = new_room.room_name
+
+        print(colored('{0} has been reallocated to {1}'.format(the_person.person_name.split()[0],
+                                                               new_room.room_name), 'green'))
 
 
 
