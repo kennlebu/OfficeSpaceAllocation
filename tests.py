@@ -149,6 +149,36 @@ class PersonTest(unittest.TestCase):
         self.assertEqual(1, len(dojo5.print_unallocated()[0]), msg='1 should miss living space')
         self.assertEqual(3, len(dojo5.print_unallocated()[1]), msg='3 should miss offices')
 
+    def test_reallocate_person(self):
+        """ Tests whether a person is reallocated to a new room """
+        dojo7 = Dojo()
+        # Add rooms to the Dojo
+        dojo7.create_room('office', 'Big office')
+        dojo7.create_room('office', 'Small office')
+        dojo7.create_room('livingspace', 'Tiny home')
+        # Add people
+        ken = dojo7.add_person('Ken Lebu', 'staff')
+        steve = dojo7.add_person('Steve Rogers', 'staff')
+        tony = dojo7.add_person('Tony Stark', 'fellow', 'Y')
+        bucky = dojo7.add_person('Bucky Barnes', 'fellow', 'Y')
+        # Get the current room of a Person
+        current_room = ken.allocated_office
+        new_room = None
+        # Pick another room to put him in
+        for room in dojo7.rooms:
+            if room.room_name != current_room:
+                new_room = room.room_name
+        # Reallocate to new Room
+        dojo7.reallocate_person(ken.person_name, new_room)
+        # Get his new room to compare
+        reallocated_room = None
+        for person in dojo7.people:
+            if person.person_name == ken.person_name:
+                reallocated_room = person.allocated_office
+        # Assert whether they are equal
+        self.assertEqual(current_room, reallocated_room,
+                         msg='Former and current room should be different')
+
 
 
 #unittest.main()
