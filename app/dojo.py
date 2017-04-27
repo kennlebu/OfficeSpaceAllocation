@@ -154,6 +154,10 @@ class Dojo():
         """
 
         if len(room_name) >= 1:
+            for room in self.rooms:
+                for each_name in room_name:
+                    if each_name.upper() == room.room_name:
+                        return 'EXISTS'
             for name in room_name:
                 new_room = Office(name) if room_type.upper() == 'OFFICE' else LivingSpace(name)
                 self.rooms.append(new_room)
