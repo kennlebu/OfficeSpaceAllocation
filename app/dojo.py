@@ -212,9 +212,8 @@ class Dojo():
             print(output)
         else:
             try:
-                output_file = open('../' + filename, 'w+')
-                output_file.write(output)
-                output_file.close()
+                with open(filename + ".txt", "w+") as output_file:
+                    output_file.write(output)
             except IOError:
                 print('Failed to write to file')
 
