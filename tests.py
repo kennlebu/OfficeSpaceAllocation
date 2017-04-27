@@ -179,6 +179,20 @@ class PersonTest(unittest.TestCase):
         self.assertEqual(current_room, reallocated_room,
                          msg='Former and current room should be different')
 
+    def test_load_people(self):
+        """ Tests whether people are loaded from a file and added to the Dojo """
+        dojo8 = Dojo()
+        initial_people = len(dojo8.people)
+        dojo8.load_people('input.txt')
+        new_people = len(dojo8.people)
+        # Check whether new people have been added
+        self.assertTrue(new_people > initial_people,
+                        msg='Number of people should increase')
+        # Check whether the correct number of people have been added
+        self.assertEqual(7, len(dojo8.people),
+                         msg='There should be 7 new people')
+
+
 
 
 #unittest.main()
