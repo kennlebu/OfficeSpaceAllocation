@@ -43,11 +43,20 @@ class Database():
         )
         '''
 
-        conn.execute(create_room)
-        conn.execute(create_person)
-        conn.execute(create_allocations)
+        cursor.execute(create_room)
+        cursor.execute(create_person)
+        cursor.execute(create_allocations)
+
+        # Check if db has a state already saved
+        entries = cursor.execute('''SELECT room_id FROM room''')
+        if len(entries) >= 1:
+            # Purge db
+            cursor.execute('DELETE FROM room')
+            cursor.execute('DELETE FROM person')
+            cursor.execute('DELETE FROM allocation')
 
         # Insert data
+        saved_rooms = []
         for room in self.dojo.rooms:
             # Insert rooms
             cursor.execute('''INSERT INTO room (room_name, room_type) VALUES
@@ -71,4 +80,6 @@ class Database():
 
                 cursor.execute('''INSERT INTO allocation (person_id, room_id) VALUES
                                ({0}, {1})'''.format(inserted_person, inserted_room))
+
+                saved_rooms.append(room)
 
