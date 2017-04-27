@@ -200,13 +200,6 @@ class Dojo():
             for member in room.occupants:
                 members.append(member.person_name)
                 all_members.append(member.person_name)
-            # for person in self.people:
-            #     if room.room_type == 'office':
-            #         if person.allocated_office == room.room_name:
-            #             members.append(person.person_name.upper())
-            #     elif room.room_type == 'livingspace':
-            #         if person.allocated_livingspace == room.room_name:
-            #             members.append(person.person_name.upper())
 
             output += ', '.join(members) + '\n\n'
 
@@ -228,24 +221,32 @@ class Dojo():
         """ Prints a list of unallocated people. If filename is specified,
         the list is outputted to the specified txt file.
         """
-        unallocated_people = []
+        unallocated_offices = []
+        unallocated_living = []
         output = ''
         for person in self.people:
-            if (person.allocated_office is None or
-                    (person.allocated_livingspace is None and person.wants_accommodation == 'Y')):
-                unallocated_people.append(person.person_name)
+            if person.allocated_office is None:
+                unallocated_offices.append(person.person_name)
+            if person.allocated_livingspace is None and person.wants_accommodation == 'Y':
+                unallocated_living.append(person.person_name)
 
-            output += '\n'.join(unallocated_people)
+        output += 'NOT ALLOCATED OFFICES\n'
+        output += '----------------------------------\n'
+        output += '\n'.join(unallocated_offices) + '\n'
+        output += 'NOT ALLOCATED LIVING SPACES'
+        output += '----------------------------------\n'
+        output += '\n'.join(unallocated_living) + '\n'
 
         if filename is None:
             print(output)
         else:
             try:
-                output_file = open('../' + filename, 'w+')
-                output_file.write(output)
-                output_file.close()
+                with open(filename + ".txt", "w+") as output_file:
+                    output_file.write(output)
             except IOError:
                 print('Failed to write to file')
+
+        return [unallocated_living, unallocated_offices]
 
 
     def reallocate_person(self, person_identifier, new_room_name):
