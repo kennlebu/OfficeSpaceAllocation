@@ -191,13 +191,15 @@ class Dojo():
         the list of allocations are outputted to the specified txt file.
         """
         output = ''
-        members = [] # List of members in the room
+        all_members = [] # List of all members in the rooms
         for room in self.rooms:
+            members = [] # List of memebers in the room
             output += room.room_name.upper() + '\n'
             output += '-------------------------------------\n'
             # Get the people in the room
             for member in room.occupants:
                 members.append(member.person_name)
+                all_members.append(member.person_name)
             # for person in self.people:
             #     if room.room_type == 'office':
             #         if person.allocated_office == room.room_name:
@@ -206,7 +208,7 @@ class Dojo():
             #         if person.allocated_livingspace == room.room_name:
             #             members.append(person.person_name.upper())
 
-            output += ', '.join(members) + '\n'
+            output += ', '.join(members) + '\n\n'
 
         if filename is None:
             print(output)
@@ -217,7 +219,7 @@ class Dojo():
             except IOError:
                 print('Failed to write to file')
 
-        return members
+        return all_members
 
 
 
