@@ -302,7 +302,7 @@ class Dojo():
                 if new_room.room_type == 'office':
                     former_room_name = person.allocated_office
                     person.allocated_office = None
-                elif new_room.room_type == 'livingspace':
+                elif new_room.room_type == 'livingspace' and person.person_type == 'fellow':
                     former_room_name = person.allocated_livingspace
                     person.allocated_livingspace = None
 
@@ -336,10 +336,10 @@ class Dojo():
             input_file = open(filename)
             new_people = input_file.readlines()
         except IOError:
-            print('Failed to read that file')
+            print(colored('Failed to read that file', 'red'))
 
         if len(new_people) < 1:
-            print('The file has no readable data')
+            print(colored('The file has no readable data', 'red'))
         else:
             for person in new_people:
                 person_args = person.split()
