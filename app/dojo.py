@@ -224,8 +224,9 @@ class Dojo():
         if filename is None:
             print(output)
         else:
+            print(output)
             try:
-                with open(filename + ".txt", "w+") as output_file:
+                with open(filename, "w+") as output_file:
                     output_file.write(output)
             except IOError:
                 print('Failed to write to file')
@@ -245,14 +246,14 @@ class Dojo():
         for person in self.people:
             if person.allocated_office is None:
                 unallocated_offices.append(person.person_name)
-            if person.person_type == 'fellow':
+            if person.person_type.upper() == 'FELLOW':
                 if person.allocated_livingspace is None and person.wants_accommodation == 'Y':
                     unallocated_living.append(person.person_name)
 
         output += 'NOT ALLOCATED OFFICES\n'
         output += '----------------------------------\n'
         output += '\n'.join(unallocated_offices) + '\n'
-        output += 'NOT ALLOCATED LIVING SPACES'
+        output += '\nNOT ALLOCATED LIVING SPACES\n'
         output += '----------------------------------\n'
         output += '\n'.join(unallocated_living) + '\n'
 
@@ -260,7 +261,7 @@ class Dojo():
             print(output)
         else:
             try:
-                with open(filename + ".txt", "w+") as output_file:
+                with open(filename, "w+") as output_file:
                     output_file.write(output)
             except IOError:
                 print('Failed to write to file')
