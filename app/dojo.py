@@ -178,22 +178,30 @@ class Dojo():
         """ Prints the names of all the people in the room """
 
         room_name = room_name.upper()
-        output = []
+        people = []
         target_room = None
         for room in self.rooms:
             if room.room_name == room_name:
-                target_room == room
+                target_room = room
 
         if target_room is None:
             print("There is no room called {}".format(room_name))
         else:
             for person in self.people:
-                if (person.allocated_office == room_name or
-                        person.allocated_livingspace == room_name):
-                    print(person.person_name)
-                    output.append(person.person_name)
+                if person.allocated_office == room_name:
+                    people.append(person.person_name)
+                if person.person_type == 'fellow':
+                    if person.allocated_livingspace == room_name:
+                        people.append(person.person_name)
 
-        return output
+            print(room_name)
+            print('-----------------------')
+            if len(people) < 1:
+                print(' NO OCCUPANTS IN {}'.format(room_name))
+            else:
+                print('\n'.join(people))
+
+        return people
 
 
     def print_allocations(self, filename=None):
