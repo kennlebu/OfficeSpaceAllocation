@@ -196,10 +196,15 @@ class Dojo():
             output += room.room_name.upper() + '\n'
             output += '-------------------------------------\n'
             # Get the people in the room
-            for person in self.people:
-                if (person.allocated_office == room.room_name or
-                        person.allocated_livingspace == room.room_name):
-                    members.append(person.person_name.upper())
+            for member in room.occupants:
+                members.append(member.person_name)
+            # for person in self.people:
+            #     if room.room_type == 'office':
+            #         if person.allocated_office == room.room_name:
+            #             members.append(person.person_name.upper())
+            #     elif room.room_type == 'livingspace':
+            #         if person.allocated_livingspace == room.room_name:
+            #             members.append(person.person_name.upper())
 
             output += ', '.join(members) + '\n'
 
