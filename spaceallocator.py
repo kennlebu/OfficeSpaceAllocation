@@ -141,7 +141,7 @@ class InteractiveShell(cmd.Cmd):
     @docopt_cmd
     def do_load_state(self, args):
         """ Usage: load_state <sqlite_database> """
-        print(args)
+        db.load_state(args['<sqlite_database>'])
 
     @docopt_cmd
     def do_list_rooms(self, args):
