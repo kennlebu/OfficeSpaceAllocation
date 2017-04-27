@@ -18,8 +18,8 @@ class TestRoom(unittest.TestCase):
         """ Tests whether a room has been created and added to the Dojo """
         dojo = Dojo()
         initial_room_count = len(dojo.rooms)
-        blue_office = dojo.create_room("office", "Blue")
-        green_livingspace = dojo.create_room('livingspace', 'Green')
+        blue_office = dojo.create_room("office", ["Blue"])
+        green_livingspace = dojo.create_room('livingspace', ['Green'])
         self.assertTrue(blue_office)
         self.assertTrue(green_livingspace)
         new_room_count = len(dojo.rooms)
@@ -28,14 +28,14 @@ class TestRoom(unittest.TestCase):
     def test_create_existing_room(self):
         """ Tests whether the room to be created already exists """
         dojo6 = Dojo()
-        office_one = dojo6.create_room('office', 'One')
-        office_two = dojo6.create_room('office', 'One')
+        office_one = dojo6.create_room('office', ['One'])
+        office_two = dojo6.create_room('office', ['One'])
         self.assertEquals('EXISTS', office_two)
 
     def test_create_livingspace(self):
         """ Tests whether LivingSpace is created and added to the Dojo """
         dojo1 = Dojo()
-        white_livingspace = dojo1.create_room("livingspace", "White")
+        white_livingspace = dojo1.create_room("livingspace", ["White"])
         self.assertTrue(white_livingspace)
         self.assertTrue(isinstance(white_livingspace, LivingSpace),
                         msg='Living Space should be an instance of LivingSpace')
@@ -44,7 +44,7 @@ class TestRoom(unittest.TestCase):
     def test_create_office(self):
         """ Tests whether an office is created and added to the Dojo """
         dojo2 = Dojo()
-        warriors = dojo2.create_room("office", "Warriors")
+        warriors = dojo2.create_room("office", ["Warriors"])
         self.assertTrue(warriors)
         self.assertTrue(isinstance(warriors, Office),
                         msg='Office should be an instance of Office')
@@ -53,17 +53,17 @@ class TestRoom(unittest.TestCase):
     def test_print_room(self):
         """ Tests whether the members in a room are printed """
         dojo3 = Dojo()
-        warriors = dojo3.create_room("office", "Warriors")
-        green_livingspace = dojo3.create_room('livingspace', 'Green')
+        warriors = dojo3.create_room("office", ["Warriors"])
+        green_livingspace = dojo3.create_room('livingspace', ['Green'])
         self.assertEqual([], dojo3.print_room('warriors'))
 
     def test_print_allocations(self):
         """ Tests whether room allocations are printed correctly """
         my_dojo = Dojo()
         # Create rooms
-        my_office = my_dojo.create_room("office", 'my_office')
-        other_office = my_dojo.create_room("office", 'other_office')
-        my_living = my_dojo.create_room('livingspace', 'my_room')
+        my_office = my_dojo.create_room("office", ['my_office'])
+        other_office = my_dojo.create_room("office", ['other_office'])
+        my_living = my_dojo.create_room('livingspace', ['my_room'])
         # Assert whether the rooms have been created
         self.assertTrue(my_office, msg='An office should be created')
         self.assertTrue(other_office, msg='An office should be created')

@@ -12,4 +12,4 @@ class Fellow(Person):
         self.person_type = "fellow"
         self.allocated_office = allocated_office
         self.allocated_livingspace = allocated_livingspace
-        self.wants_accommodation = wants_accommodation
+        self.wants_accommodation = wants_accommodation.upper()

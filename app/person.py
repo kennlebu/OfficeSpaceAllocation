@@ -5,7 +5,7 @@ class Person(object):
     """
 
     def __init__(self, person_name, allocated_office=None):
-        self.person_name = person_name
+        self.person_name = person_name.title()
         self.allocated_office = allocated_office
 
             

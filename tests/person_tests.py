@@ -49,8 +49,8 @@ class PersonTest(unittest.TestCase):
         """ Tests whether unalloacted people are printed properly """
         dojo5 = Dojo()
         # Add a room to the Dojo
-        dojo5.create_room('office', 'corner office')
-        dojo5.create_room('livingspace', 'home')
+        dojo5.create_room('office', ['corner office'])
+        dojo5.create_room('livingspace', ['home'])
         # Create staff
         dojo5.add_person('Ken Lebu', 'staff')
         dojo5.add_person('John Doe', 'staff')
@@ -73,9 +73,9 @@ class PersonTest(unittest.TestCase):
         """ Tests whether a person is reallocated to a new room """
         dojo7 = Dojo()
         # Add rooms to the Dojo
-        dojo7.create_room('office', 'Big office')
-        dojo7.create_room('office', 'Small office')
-        dojo7.create_room('livingspace', 'Tiny home')
+        dojo7.create_room('office', ['Big office'])
+        dojo7.create_room('office', ['Small office'])
+        dojo7.create_room('livingspace', ['Tiny home'])
         # Add people
         ken = dojo7.add_person('Ken Lebu', 'staff')
         steve = dojo7.add_person('Steve Rogers', 'staff')
