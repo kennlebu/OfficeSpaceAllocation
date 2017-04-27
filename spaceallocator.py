@@ -125,7 +125,7 @@ class InteractiveShell(cmd.Cmd):
     @docopt_cmd
     def do_load_people(self, args):
         """ Usage: load_people <filename> """
-        print(args)
+        dojo.load_people(args['<filename>'])
 
     @docopt_cmd
     def do_save_state(self, args):
@@ -144,7 +144,7 @@ class InteractiveShell(cmd.Cmd):
 
     @docopt_cmd
     def do_quit(self, args):
-        """ Quits the interactive mode """
+        """ Usage: quit """
         print("Bye!")
         exit()
 
