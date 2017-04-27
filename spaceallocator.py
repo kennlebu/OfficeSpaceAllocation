@@ -10,6 +10,8 @@ Usage:
     spaceallocator load_people <filename>
     spaceallocator save_state [--db=sqlite_database]
     spaceallocator load_state <sqlite_database>
+    spaceallocator list_rooms
+    spaceallocator quit
     spaceallocator (-h | --help)
     spaceallocator (-i | --interactive)
     spaceallocator --version
@@ -26,6 +28,8 @@ from docopt import docopt, DocoptExit
 from termcolor import colored, cprint
 from pyfiglet import figlet_format
 from app.dojo import Dojo
+
+dojo = Dojo()
 
 def docopt_cmd(func):
     """
@@ -72,21 +76,23 @@ class InteractiveShell(cmd.Cmd):
     @docopt_cmd
     def do_create_room(self, args):
         """Usage: create_room <room_type> <room_name>..."""
-        Dojo.create_room(args['<room_type>'], args['<room_name>'])
+        dojo.create_room(args['<room_type>'], args['<room_name>'])
 
     @docopt_cmd
     def do_add_person(self, args):
         """ Usage: add_person <first_name> <last_namae> <FELLOW|STAFF> [wants_accommodation] """
-        person_name = args['first_name'] + ' ' + args['last_name']
-        person_type = args['']
-        #Dojo.add_person(person_name, person_type)
+        person_name = args['<first_name>'] + ' ' + args['<last_name>']
+        person_type = args['<FELLOW|STAFF>']
+        wants_accommodation = 'Y' if args.get('<wants_accommodation>') == 'Y' else 'N'
+
+        dojo.add_person(person_name, person_type, wants_accommodation)
 
     @docopt_cmd
     def do_print_room(self, args):
         """ Usage: print_room <room_name> """
-        # room_name = args['<room_name>']
-        # Dojo.print_room(room_name)
-        print(args)
+        room_name = args['<room_name>']
+        dojo.print_room(room_name)
+        #print(args)
 
     @docopt_cmd
     def do_print_allocation(self, args):
@@ -117,6 +123,11 @@ class InteractiveShell(cmd.Cmd):
     def do_load_state(self, args):
         """ Usage: load_state <sqlite_database> """
         print(args)
+
+    @docopt_cmd
+    def do_list_rooms(self, args):
+        """ Usage: list_rooms """
+        dojo.list_rooms()
 
     @docopt_cmd
     def do_quit(self, args):
