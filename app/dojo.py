@@ -82,7 +82,7 @@ class Dojo():
         # Get rooms with space left in them
         unfilled_spaces = []
         for living_space in living_spaces:
-            if len(living_space.occupants) < living_space.max_occupants:
+            if len(living_space.occupants) < int(living_space.max_occupants):
                 unfilled_spaces.append(living_space)
 
         if len(unfilled_spaces) < 1:
@@ -117,7 +117,7 @@ class Dojo():
         # Get offices with space left in them
         unfilled_spaces = []
         for office in office_spaces:
-            if len(office.occupants) < office.max_occupants:
+            if len(office.occupants) < int(office.max_occupants):
                 unfilled_spaces.append(office)
 
         if len(unfilled_spaces) < 1:
@@ -191,8 +191,8 @@ class Dojo():
         the list of allocations are outputted to the specified txt file.
         """
         output = ''
+        members = [] # List of members in the room
         for room in self.rooms:
-            members = [] # List of members in the room
             output += room.room_name.upper() + '\n'
             output += '-------------------------------------\n'
             # Get the people in the room
@@ -212,6 +212,9 @@ class Dojo():
                 output_file.close()
             except IOError:
                 print('Failed to write to file')
+
+        return members
+
 
 
 

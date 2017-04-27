@@ -8,8 +8,9 @@ from app.fellow import Fellow
 from app.staff import Staff
 import unittest
 import nose
+import coverage
 
-class TestCreateRoom(unittest.TestCase):
+class TestRoom(unittest.TestCase):
     """ Tests whether Offices and Living Spaces are created correctly """
 
     def test_create_room_successfully(self):
@@ -47,6 +48,34 @@ class TestCreateRoom(unittest.TestCase):
         warriors = dojo3.create_room("office", "Warriors")
         green_livingspace = dojo3.create_room('livingspace', 'Green')
         self.assertEqual([], dojo3.print_room('warriors'))
+
+    def test_print_allocations(self):
+        """ Tests whether room allocations are printed correctly """
+        my_dojo = Dojo()
+        # Create rooms
+        my_office = my_dojo.create_room("office", 'my_office')
+        other_office = my_dojo.create_room("office", 'other_office')
+        my_living = my_dojo.create_room('livingspace', 'my_room')
+        # Assert whether the rooms have been created
+        self.assertTrue(my_office, msg='An office should be created')
+        self.assertTrue(other_office, msg='An office should be created')
+        self.assertTrue(my_living, msg='A living space should be created')
+        # Check whether the rooms have been added to the Dojo
+        self.assertEqual(3, len(my_dojo.rooms))
+        # Create staff
+        my_dojo.add_person('Ken Lebu', 'staff')
+        my_dojo.add_person('John Doe', 'staff')
+        my_dojo.add_person('Sarah Doe', 'staff')
+        # Create fellows
+        my_dojo.add_person('Big Show', 'fellow', 'Y')
+        my_dojo.add_person('Steven Segal', 'fellow')
+        my_dojo.add_person('Jackie Chan', 'fellow', 'Y')
+        my_dojo.add_person('Johnny Bravo', 'fellow', 'Y')
+        my_dojo.add_person('Samurai Jack', 'fellow', 'Y')
+        # Check whether people have been added to the Dojo
+        self.assertEqual(8, len(my_dojo.people))
+        # Check whether the members' list has the correct number of people
+        self.assertEqual(8, len(my_dojo.print_allocations))
 
 
 class PersonTest(unittest.TestCase):
@@ -87,6 +116,7 @@ class PersonTest(unittest.TestCase):
 
 #unittest.main()
 if __name__ == '__main__':
-    nose.run(defaultTest=__name__)
+    #unittest.main()
+    nose.run(argv=['--with-coverage'])
 
 
