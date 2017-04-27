@@ -2,7 +2,7 @@
 
 Usage:
     spaceallocator create_room <room_type> <room_name>...
-    spaceallocator add_person <person_name> <FELLOW|STAFF> [wants_accommodation]
+    spaceallocator add_person <first_name> <last_name> <FELLOW|STAFF> [<wants_accommodation>]
     spaceallocator print_room <room_name>
     spaceallocator print_allocations [-o=filename]
     spaceallocator print_unallocated [-o=filename]
@@ -17,7 +17,7 @@ Usage:
     spaceallocator --version
 
 Options:
-    -h --help    Sorry mate, no help for you.
+    -h --help    Type help for a list of commands.
     -v --version    Show version.
     -i --interactive    Interactive Mode
 """
@@ -80,10 +80,14 @@ class InteractiveShell(cmd.Cmd):
 
     @docopt_cmd
     def do_add_person(self, args):
-        """ Usage: add_person <first_name> <last_namae> <FELLOW|STAFF> [wants_accommodation] """
+        """ Usage: add_person <first_name> <last_name> (fellow|staff)  [<wants_accommodation>] """
+
         person_name = args['<first_name>'] + ' ' + args['<last_name>']
-        person_type = args['<FELLOW|STAFF>']
-        wants_accommodation = 'Y' if args.get('<wants_accommodation>') == 'Y' else 'N'
+        if args['fellow']:
+            person_type = 'fellow'
+        elif args['staff']:
+            person_type = 'staff'
+        wants_accommodation = 'Y' if args.get('<wants_accommodation>').upper() == 'Y' else 'N'
 
         dojo.add_person(person_name, person_type, wants_accommodation)
 
