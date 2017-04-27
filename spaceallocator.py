@@ -4,8 +4,8 @@ Usage:
     spaceallocator create_room <room_type> <room_name>...
     spaceallocator add_person <first_name> <last_name> <FELLOW|STAFF> [<wants_accommodation>]
     spaceallocator print_room <room_name>
-    spaceallocator print_allocations [-o=filename]
-    spaceallocator print_unallocated [-o=filename]
+    spaceallocator print_allocations [--o=filename.txt]
+    spaceallocator print_unallocated [--o=filename.txt]
     spaceallocator reallocate_person <person_identifier> <new_room_name>
     spaceallocator load_people <filename>
     spaceallocator save_state [--db=sqlite_database]
@@ -20,6 +20,7 @@ Options:
     -h --help    Type help for a list of commands.
     -v --version    Show version.
     -i --interactive    Interactive Mode
+    -o FILE   Specify file to use
 """
 
 import cmd
@@ -67,7 +68,7 @@ def docopt_cmd(func):
 
 
 class InteractiveShell(cmd.Cmd):
-    print(colored(figlet_format('Office Space Allocator', font='contrast'), 'cyan',
+    print(colored(figlet_format('Office Space Allocator', font='nancyj'), 'cyan',
                   attrs=['bold']))
     intro = 'Welcome to Office Space Allocator \nType help to get a list of commands to use'
 
@@ -101,13 +102,16 @@ class InteractiveShell(cmd.Cmd):
 
     @docopt_cmd
     def do_print_allocation(self, args):
-        """ Usage: print_allocations [-o=filename] """
-        print(args)
+        """ Usage: print_allocations [--o=<filename.txt>] """
+        if args['--o'] is not None:
+            dojo.print_allocations(args['--o'])
+        else:
+            dojo.print_allocations()
 
     @docopt_cmd
     def do_print_unallocated(self, args):
-        """ Usage: spaceallocator print_unallocated [-o=filename] """
-        print(args)
+        """ Usage: spaceallocator print_unallocated [--o=filename.txt] """
+        print(args['-o'])
 
     @docopt_cmd
     def do_reallocate_persom(self, args):
