@@ -1,5 +1,10 @@
 import sqlite3
 from .dojo import Dojo
+from .staff import Staff
+from .fellow import Fellow
+from .office import Office
+from .living_space import LivingSpace
+from termcolor import colored
 
 class Database():
     """ Contains CRUD operations for the database """
@@ -84,5 +89,57 @@ class Database():
                                 ('{0}', '{1}')""".format(inserted_person, inserted_room))
 
                     saved_rooms.append(room)
-            print('State has been saved successfully')
+            print(colored('State has been saved successfully', 'green'))
+
+
+    def load_state(self, database):
+        """ Loads the state of the application from the database """
+        if database is None or database.strip() == '':
+            print(colored('Specify a database to load state from.', 'red'))
+            return 'NO DATABASE'
+        
+        try:
+            conn = sqlite3.connect(database)
+            with conn:
+                cursor = conn.cursor()
+
+                # Load rooms into Dojo
+                cursor.execute("""SELECT room_name, room_type FROM room""")
+                db_rooms = cursor.fetchall()
+                for row in db_rooms:
+                    if row[1] == 'office':
+                        self.dojo.rooms.append(Office(row[0]))
+                    else:
+                        self.dojo.rooms.append(LivingSpace(row[0]))
+
+                # Load people into Dojo
+                cursor.execute("""SELECT person_name, person_type, allocated_office,
+                               allocated_livingspace, wants_accommodation FROM person""")
+                for row in cursor.fetchall():
+                    person_name = row[0]
+                    person_type = row[1]
+                    allocated_office = row[2]
+                    allocated_livingspace = row[3]
+                    wants_accommodation = row[4]
+
+                    if person_type == 'staff':
+                        self.dojo.people.append(Staff(person_name, allocated_office))
+                    else:
+                        self.dojo.people.append(Fellow(person_name, wants_accommodation,
+                                                       allocated_office, allocated_livingspace))
+
+                # Add people into their rooms
+                for person in self.dojo.people:
+                    for room in self.dojo.rooms:
+                        if room.room_type == 'office':
+                            if person.allocated_office == room.room_name:
+                                room.occupants.append(person)
+                        else:
+                            if person.person_type == 'fellow':
+                                if person.allocated_livingspace == room.room_name:
+                                    room.occupants.append(person)
+
+        except sqlite3.Error as e:
+            print(colored('Error {}'.format(e.args[0]), 'red'))
+            return 'FAILED TO CONNECT'
 
