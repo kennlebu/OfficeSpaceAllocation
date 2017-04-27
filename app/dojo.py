@@ -262,41 +262,45 @@ class Dojo():
         room_names = []
         new_room = None
         for room in self.rooms:
-            room_names.append(room.room.room_name)
+            room_names.append(room.room_name)
         if new_room_name.upper() not in room_names:
             print("There is no room with that name")
-            return
+            return 'NO SUCH ROOM'
 
         # Check if the new room has space
         for room in self.rooms:
             if new_room_name.upper() == room.room_name:
                 new_room = room
 
-        if new_room.len(new_room.occupants) >= new_room.max_occupants:
+        if len(new_room.occupants) >= int(new_room.max_occupants):
             print("{} is already full.".format(new_room.room_name))
-            return
+            return "ROOM FULL"
 
         # Remove occupant from former room.
         # First, get their former room.
-        former_room = None
+        former_room_name = None
         the_person = None
         for person in self.people:
             if person.person_name == person_identifier.upper():
                 the_person = person
                 if new_room.room_type == 'office':
-                    former_room = person.allocated_office
+                    former_room_name = person.allocated_office
                     person.allocated_office = None
                 elif new_room.room_type == 'livingspace':
-                    former_room = person.allocated_livingspace
+                    former_room_name = person.allocated_livingspace
                     person.allocated_livingspace = None
+
+        if the_person is None:
+            print('That person does not exist')
+            return 'NO SUCH PERSON'
 
         # Reduce occupants in that room
         for room in self.rooms:
-            if room.room_name == former_room:
-                room.occupants =- 1 
+            if room.room_name == former_room_name:
+                room.occupants.remove(the_person)
 
         # Add person to the new room
-        new_room.occupants += 1
+        new_room.occupants.append(the_person)
         if new_room.room_type == 'office':
             the_person.allocated_office = new_room.room_name
         else:
