@@ -137,9 +137,10 @@ class PersonTest(unittest.TestCase):
         dojo5.add_person('Will Smith', 'fellow', 'Y')
         # Check for unallocated
         # 3 will miss offices, 1 will miss living space
-        self.assertEqual(4, dojo5.print_unallocated(), msg='4 should be unallocated')
-        self.assertEqual(1, dojo5.print_unallocated[0], msg='1 should miss living space')
-        self.assertEqual(3, dojo5.print_unallocated[1], msg='3 should miss offices')
+        self.assertEqual(4, len(dojo5.print_unallocated()[0] + dojo5.print_unallocated()[1]),
+                         msg='4 should be unallocated')
+        self.assertEqual(1, len(dojo5.print_unallocated()[0]), msg='1 should miss living space')
+        self.assertEqual(3, len(dojo5.print_unallocated()[1]), msg='3 should miss offices')
 
 
 
