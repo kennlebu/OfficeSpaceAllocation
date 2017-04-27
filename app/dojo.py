@@ -147,21 +147,27 @@ class Dojo():
 
 
 
-    def create_room(self, room_type, *room_name):
+    def create_room(self, room_type, room_name):
         """ Creates a room of type <room_type> called <room_name>.
         If more than one name is passed, it creates as many rooms
         with the different names of type <room_type>.
         """
 
+        new_room = None
         if len(room_name) >= 1:
             for room in self.rooms:
                 for each_name in room_name:
-                    if each_name.upper() == room.room_name:
+                    if each_name.upper() == room.room_name.upper():
                         return 'EXISTS'
             for name in room_name:
                 new_room = Office(name) if room_type.upper() == 'OFFICE' else LivingSpace(name)
                 self.rooms.append(new_room)
-                return new_room
+                print('A{0} {1} called {2} has been successfully created'
+                      .format(('n' if room_type.upper() == 'OFFICE' else ''),
+                              room_type.capitalize(),
+                              name.capitalize()))
+
+            return new_room
 
         else:
             print("Specify at least one room name")
