@@ -76,6 +76,11 @@ class TestRoom(unittest.TestCase):
         self.assertEqual(8, len(my_dojo.people))
         # Check whether the members' list has the correct number of people
         self.assertEqual(8, len(my_dojo.print_allocations))
+        # Check whether list is printed to a file
+        my_dojo.print_allocations('allocations.txt')
+        list_file = open('allocations.txt', 'r')
+        text = list_file.readlines()
+        self.assertTrue(len(text) > 3)
 
 
 class PersonTest(unittest.TestCase):
