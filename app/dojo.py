@@ -4,7 +4,7 @@ from .office import Office
 from .living_space import LivingSpace
 from .staff import Staff
 from .fellow import Fellow
-from termcolor import colored
+from termcolor import colored, cprint
 import csv
 
 class Dojo():
@@ -76,8 +76,8 @@ class Dojo():
 
         if len(living_spaces) < 1:
         # There is no living space in the Dojo
-            print(colored("There are no living spaces in the Dojo yet. Create one using: create_room livingspace <room_name>",
-                          'red'))
+            print(cprint("There are no living spaces in the Dojo yet. Create one using: create_room livingspace <room_name>",
+                          'white', 'on_red'))
             return 'NO LIVING SPACES'
 
         # Get rooms with space left in them
@@ -88,8 +88,8 @@ class Dojo():
 
         if len(unfilled_spaces) < 1:
         # There are no living spaces with space in them
-            print(colored("All living spaces are full. Create a new one using: create_room livingspace <room_name>",
-                          'red'))
+            print(cprint("All living spaces are full. Create a new one using: create_room livingspace <room_name>",
+                          'white', 'on_red'))
             return 'NO SPACE'
 
         # Select a living space at random and add the fellow to it
@@ -97,7 +97,7 @@ class Dojo():
         selected_space.occupants.append(person)
         person.allocated_livingspace = selected_space.room_name
         print(colored("{0} has been allocated the living space {1}"
-                      .format(person.person_name.split()[0], selected_space.room_name), 'red'))
+                      .format(person.person_name.split()[0], selected_space.room_name), 'green'))
 
 
     def allocate_office(self, person):
@@ -111,8 +111,8 @@ class Dojo():
 
         if len(office_spaces) < 1:
         # There is no office in the Dojo
-            print(colored("There are no offices in the Dojo yet. Create one using: create_room office <room_name>",
-                          'red'))
+            print(cprint("There are no offices in the Dojo yet. Create one using: create_room office <room_name>",
+                          'white', 'on_red'))
             return 'NO OFFICES'
 
         # Get offices with space left in them
@@ -123,8 +123,8 @@ class Dojo():
 
         if len(unfilled_spaces) < 1:
         # There are no offices with space in them
-            print(colored("All offices are full. Create a new one using: create_room office <room_name>",
-                          'red'))
+            print(cprint("All offices are full. Create a new one using: create_room office <room_name>",
+                          'white', 'on_red'))
             return 'NO SPACE'
 
         # Select an office at random and add the person in it
@@ -133,7 +133,7 @@ class Dojo():
         person.allocated_office = selected_office.room_name
         print(colored("{0} has been allocated the office {1}".format(person.person_name.split()[0],
                                                                      selected_office.room_name),
-                      'red'))
+                      'green'))
 
 
 
@@ -142,8 +142,8 @@ class Dojo():
         """ Lists the rooms that are existing in the Dojo and the number
         of occupants they have
         """
-        print('ROOM\t\t|\tOCCUPANTS')
-        print('-----------------------------------------')
+        print(colored('ROOM\t\t|\tOCCUPANTS', 'cyan'))
+        print(colored('-----------------------------------------', 'cyan'))
         for room in self.rooms:
             print(room.room_name + '\t\t :\t' + str(len(room.occupants)))
 
@@ -173,7 +173,7 @@ class Dojo():
             return new_room
 
         else:
-            print(colored("Specify at least one room name", 'red'))
+            print(cprint("Specify at least one room name", 'white', 'on_red'))
 
 
 
@@ -188,7 +188,7 @@ class Dojo():
                 target_room = room
 
         if target_room is None:
-            print(colored("There is no room called {}".format(room_name), 'red'))
+            print(cprint("There is no room called {}".format(room_name), 'white', 'on_red'))
         else:
             for person in self.people:
                 if person.allocated_office == room_name:
@@ -232,7 +232,7 @@ class Dojo():
                 with open(filename, "w+") as output_file:
                     output_file.write(output)
             except IOError:
-                print(colored('Failed to write to file', 'red'))
+                print(cprint('Failed to write to file', 'white', 'on_red'))
 
         return all_members
 
@@ -274,7 +274,7 @@ class Dojo():
                         with open(filename, "w+") as output_file:
                             output_file.write(output)
                     except IOError:
-                        print(colored('Failed to write to file', 'red'))
+                        print(cprint('Failed to write to file', 'white', 'on_red'))
                 elif  extension.lower() == 'csv':
                     with open(filename, 'w+', newline='') as csv_file:
 
@@ -285,9 +285,9 @@ class Dojo():
                         writer.writerow(['NOT ALLOCATED LIVING SPACES'])
                         writer.writerow(unallocated_living)
 
-                else: print(colored('File format not supported', 'red'))
+                else: print(cprint('File format not supported', 'white', 'on_red'))
             else:
-                print(colored('Add a file extension to the file name', 'red'))
+                print(cprint('Add a file extension to the file name', 'white', 'on_red'))
 
         return [unallocated_living, unallocated_offices]
 
@@ -302,7 +302,7 @@ class Dojo():
         for room in self.rooms:
             room_names.append(room.room_name)
         if new_room_name.upper() not in room_names:
-            print(colored("There is no room with that name", 'red'))
+            print(cprint("There is no room with that name", 'white', 'on_red'))
             return 'NO SUCH ROOM'
 
         # Check if the new room has space
@@ -311,7 +311,7 @@ class Dojo():
                 new_room = room
 
         if len(new_room.occupants) >= int(new_room.max_occupants):
-            print(colored("{} is already full.".format(new_room.room_name), 'red'))
+            print(cprint("{} is already full.".format(new_room.room_name), 'white', 'on_red'))
             return "ROOM FULL"
 
         # Remove occupant from former room.
@@ -329,7 +329,7 @@ class Dojo():
                     person.allocated_livingspace = None
 
         if the_person is None:
-            print(colored('That person does not exist', 'red'))
+            print(cprint('That person does not exist', 'white', 'on_red'))
             return 'NO SUCH PERSON'
 
         # Reduce occupants in that room
@@ -358,10 +358,10 @@ class Dojo():
             input_file = open(filename)
             new_people = input_file.readlines()
         except IOError:
-            print(colored('Failed to read that file', 'red'))
+            print(cprint('Failed to read that file', 'white', 'on_red'))
 
         if len(new_people) < 1:
-            print(colored('The file has no readable data', 'red'))
+            print(cprint('The file has no readable data', 'white', 'on_red'))
         else:
             for person in new_people:
                 person_args = person.split()
@@ -372,4 +372,5 @@ class Dojo():
                 else:
                     self.add_person(person_name, person_type)
 
-            print(colored("People have been loaded from {} successfully.".format(filename)))
+            print(colored("People have been loaded from {} successfully.".format(filename),
+                          'green'))

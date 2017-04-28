@@ -4,7 +4,7 @@ from .staff import Staff
 from .fellow import Fellow
 from .office import Office
 from .living_space import LivingSpace
-from termcolor import colored
+from termcolor import colored, cprint
 
 class Database():
     """ Contains CRUD operations for the database """
@@ -86,10 +86,12 @@ class Database():
                                            allocated_living, wants_accommodation))
 
                     inserted_person = cursor.lastrowid
-                    saved_people.append(person.person_name)
+                    saved_people.append(person)
 
                     cursor.execute("""INSERT INTO allocation (person_id, room_id) VALUES
                                 ('{0}', '{1}')""".format(inserted_person, inserted_room))
+
+            
 
             print(colored('State has been saved successfully', 'green'))
 
@@ -97,7 +99,7 @@ class Database():
     def load_state(self, database):
         """ Loads the state of the application from the database """
         if database is None or database.strip() == '':
-            print(colored('Specify a database to load state from.', 'red'))
+            print(cprint('Specify a database to load state from.', 'white', 'on_red'))
             return 'NO DATABASE'
 
         try:
@@ -144,6 +146,6 @@ class Database():
             print(colored('State has been restored successfully', 'green'))
 
         except sqlite3.Error as e:
-            print(colored('Error {}'.format(e.args[0]), 'red'))
+            print(cprint('Error {}'.format(e.args[0]), 'white', 'on_red'))
             return 'FAILED TO CONNECT'
 
