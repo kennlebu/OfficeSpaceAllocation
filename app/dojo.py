@@ -76,8 +76,8 @@ class Dojo():
 
         if len(living_spaces) < 1:
         # There is no living space in the Dojo
-            print(colored("""There are no living spaces in the Dojo yet.
-                          Create one using: create_room livingspace <room_name>""", 'red'))
+            print(colored("There are no living spaces in the Dojo yet. Create one using: create_room livingspace <room_name>",
+                          'red'))
             return 'NO LIVING SPACES'
 
         # Get rooms with space left in them
@@ -88,8 +88,8 @@ class Dojo():
 
         if len(unfilled_spaces) < 1:
         # There are no living spaces with space in them
-            print(colored("""All living spaces are full.
-                          Create a new one using: create_room livingspace <room_name>""", 'red'))
+            print(colored("All living spaces are full. Create a new one using: create_room livingspace <room_name>",
+                          'red'))
             return 'NO SPACE'
 
         # Select a living space at random and add the fellow to it
@@ -111,8 +111,8 @@ class Dojo():
 
         if len(office_spaces) < 1:
         # There is no office in the Dojo
-            print(colored("""There are no offices in the Dojo yet.
-                          Create one using: create_room office <room_name>""", 'red'))
+            print(colored("There are no offices in the Dojo yet. Create one using: create_room office <room_name>",
+                          'red'))
             return 'NO OFFICES'
 
         # Get offices with space left in them
@@ -277,20 +277,17 @@ class Dojo():
                         print(colored('Failed to write to file', 'red'))
                 elif  extension.lower() == 'csv':
                     with open(filename, 'w+', newline='') as csv_file:
-                        # fieldnames = ['recepient', 'status', 'vendor_response']
-                        # writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-                        # writer.writeheader()
                         writer = csv.writer(csv_file)
-                        writer.writerow('NOT ALLOCATED OFFICES')
-                        for person in unallocated_offices:
-                            writer.writerow(person)
+                        writer.writerow(['NOT ALLOCATED OFFICES'])
+                        writer.writerow(unallocated_offices)
                         writer.writerow("")
-                        writer.writerow('NOT ALLOCATED LIVING SPACES')
-                        for person in unallocated_living:
-                            writer.writerow(person)
+                        writer.writerow(['NOT ALLOCATED LIVING SPACES'])
+                        writer.writerow(unallocated_living)
 
                 else: print(colored('File format not supported', 'red'))
+            else:
+                print(colored('Add a file extension to the file name', 'red'))
 
         return [unallocated_living, unallocated_offices]
 
