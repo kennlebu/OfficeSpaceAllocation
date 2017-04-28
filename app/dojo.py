@@ -227,12 +227,21 @@ class Dojo():
         if filename is None:
             print(output)
         else:
-            print(output)
-            try:
-                with open(filename, "w+") as output_file:
-                    output_file.write(output)
-            except IOError:
-                print(cprint('Failed to write to file', 'white', 'on_red'))
+            extension = None
+            file_format = filename.split('.')
+            if len(file_format) > 1:
+                extension = file_format[-1]
+            if extension is not None:
+                if extension.lower() == 'txt':
+                    try:
+                        with open(filename, "w+") as output_file:
+                            output_file.write(output)
+                    except IOError:
+                        print(cprint('Failed to write to file', 'white', 'on_red'))
+                else:
+                    print(cprint('File format not supported', 'white', 'on_red'))
+            else:
+                print(cprint('Add a file extension to the file name', 'white', 'on_red'))
 
         return all_members
 
